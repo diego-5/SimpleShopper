@@ -9,6 +9,7 @@
 			background-image: url("../img/grocerybackground.jpg");
 			background-repeat:none;
 			background-size: cover;
+			background-attachment: fixed;
 		}
 
 		form, .form{
@@ -43,6 +44,7 @@
 			margin:5px;
 			font-size:100%;
 		}
+
 		
 	</style>
 </head>
@@ -53,6 +55,8 @@
 
 require('db.php');
 session_start();
+
+
 
 	if(isset($_POST['submit'])){
 
@@ -77,7 +81,7 @@ session_start();
 		$city = stripslashes($_REQUEST['city']);
 		$city= mysqli_real_escape_string($con,$city);
 
-		$state = stripslashes($_REQUEST['username']);
+		$state = stripslashes($_REQUEST['state']);
 		$state = mysqli_real_escape_string($con,$state);
 
 		$zipcode = stripslashes($_REQUEST['zipcode']);
@@ -88,19 +92,40 @@ session_start();
 		$result = mysqli_query($con,$query) or die(mysql_error());
 
         $rows = mysqli_num_rows($result);
-        $user = mysqli_fetch_assoc($result);
+		$user = mysqli_fetch_assoc($result);
 		
+
 		if($user){
             if($user['customer_first_name']===$username){
                 echo "<div class='form'><h3>Username already exists.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";
-            }
+			}
         }else{
-        $query2 = "INSERT INTO `customers` (`customer_first_name`, `customer_last_name`, `customer_email_address`,  `customer_password`, `customer_phone_number`,`customer_address`, `customer_city`, `customer_state`, `customer_zipcode`) VALUES('$username', '$lastname', '$emailaddr', '$password', '$phonenum', '$addr', '$city', '$state', '$zipcode')";
-        mysqli_query($con, $query2);
-        $_SESSION['username'] = $username;
-        echo $_SESSION['username'];
-        echo "<div class='form'><h3>Congratulations! You have registered.</h3><br/>Click here to <a href='login.php'>Login</a></div>";
-        }
+			$userpattern = "/^[a-zA-Z]*$/";
+			$passpattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,20})/";
+			$numpattern = "/^[0-9]*$/";
+			if(!preg_match($userpattern, $_POST['username'])){
+				echo "<div class='form'><h3>Username is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";
+			}elseif(!preg_match($userpattern, $_POST['lastname'])){
+				echo "<div class='form'><h3>Last name is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";
+			}elseif (!preg_match($passpattern, $_POST["password"])){
+				echo "<div class='form'><h3>Password is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";
+			}elseif (!filter_var($_POST["emailaddress"], FILTER_VALIDATE_EMAIL)){
+				echo "<div class='form'><h3>Email is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";
+			}elseif($_POST["phone"].length>10 || !preg_match($numpattern, $_POST["phone"])){
+				echo "<div class='form'><h3>Phone number is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";				
+			}elseif($_POST["state"].length!=2){
+				echo "<div class='form'><h3>State code is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";
+			}elseif($_POST["zipcode"].length>8 || !preg_match($numpattern, $_POST["zipcode"])){
+				echo "<div class='form'><h3>Zipcode is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";	
+			}
+			else{	
+				$query2 = "INSERT INTO `customers` (`customer_first_name`, `customer_last_name`, `customer_email_address`,  `customer_password`, `customer_phone_number`,`customer_address`, `customer_city`, `customer_state`, `customer_zipcode`) VALUES('$username', '$lastname', '$emailaddr', '$password', '$phonenum', '$addr', '$city', '$state', '$zipcode')";
+				mysqli_query($con, $query2);
+				$_SESSION['username'] = $username;
+				echo $_SESSION['username'];
+				echo "<div class='form'><h3>Congratulations! You have registered.</h3><br/>Click here to <a href='login.php'>Login</a></div>";
+			}
+		}
 	}
 	else{
 
@@ -108,19 +133,21 @@ session_start();
 <h1>Simple Shopper</h1>
 <div class="container">	
 		<h2>Register</h2>
-		
-		<form action="register.php" method="POST" name="login">
-			<input type="text" name="username" placeholder="First Name" required />
-			<input type="text" name="lastname" placeholder="Last Name" required />
-			<input type="password" name="password" placeholder="Password" required />
-			<input type="text" name="emailaddress" placeholder="Email" required />
-			<input type="text" name="phone" placeholder="Phone Number" required />
-			<input type="text" name="address" placeholder="Street Address" required />
-			<input type="text" name="city" placeholder="City" required />
-			<input type="text" name="state" placeholder="State" required />
-			<input type="text" name="zipcode" placeholder="Zip Code" required />
-			<input name="submit" type="submit" id="submit" value="Register"/>
-			<p>Don't know the registration requirements? <a href='reghelp.php'>Get Help Here</a></p>
+		<p id="error" style="display:none;">One of the fields has incorrect information. Please try again.</p>
+		<form action="register.php" method="POST" onsubmit="return validate();" name="login" id="register">
+			<input type="text" name="username" id="username" placeholder="First Name" required />
+			<span class="error"> <?php echo $usernameErr;?> </span>
+
+			<input type="text" name="lastname" id="lastname" placeholder="Last Name" required />
+			<input type="password" name="password" id="password" placeholder="Password" required />
+			<input type="text" name="emailaddress" id="emailaddress" placeholder="Email" required />
+			<input type="text" name="phone" id="phone" placeholder="Phone Number" required />
+			<input type="text" name="address" id="address" placeholder="Street Address" required />
+			<input type="text" name="city" id="city" placeholder="City" required />
+			<input type="text" name="state" id="state" placeholder="State" required />
+			<input type="text" name="zipcode" id="zipcode" placeholder="Zip Code" required />
+			<input name="submit" type="submit" id="submit" onclick="validate()"value="Register"/>
+			<p>Don't know the registration requirements? <a href='reghelp.html'>Get Help Here</a></p>
 			<p>Already registered? <a href='login.php'>Login Here</a></p>
 		</form>
 

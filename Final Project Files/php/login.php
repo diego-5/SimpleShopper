@@ -67,8 +67,12 @@ session_start();
 		if($rows==1){
 
 			$_SESSION['username'] = $username;
-
-			header("Location: inventory.php"); // Redirect user to index.php
+			if($username == "admin"){
+				header("Location: admininventory.php"); 
+			}
+			else{
+				header("Location: inventory.php"); 
+			}
 
 		}
 		else{
