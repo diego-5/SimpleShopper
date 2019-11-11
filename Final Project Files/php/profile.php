@@ -40,7 +40,7 @@
 require("db.php");
 session_start();
 
-$id = $_SESSION['username'];
+$id = $_GET['username'];
 $id = mysqli_real_escape_string($con, $id);
 
 echo "<div class='history'>";
