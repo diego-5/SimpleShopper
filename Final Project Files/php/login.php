@@ -67,12 +67,9 @@ session_start();
 		if($rows==1){
 
 			$_SESSION['username'] = $username;
-			if($username == "admin"){
-				header("Location: admininventory.php"); 
-			}
-			else{
-				header("Location: inventory.php"); 
-			}
+			
+			header("Location: inventory.php"); 
+			die();
 
 		}
 		else{

@@ -2,197 +2,175 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body{
-            background-image: url("../img/back.png"), linear-gradient(to right, #a8ff78, #78ffd6);
-            font-family: verdana;
-            background-repeat:repeat;
+        body,h1,h2,h3,h4,h5,h6 {
+            font-family: courier;
         }
 
-        ul {
-            list-style-type: none;
-            margin: 5px;
-            padding: 0;
-            overflow: hidden;
-            background-color: darkorange;
-            font-size:200%;
-            border-style: outset;
-            border-radius:10px;
+        body, html {
+            height: 100%;
+            line-height: 1.8;
+            background-color:floralwhite;
         }
 
-        li {
-            display:inline;
+        .bar .button {
+            padding: 16px;
+            white-space:normal;
         }
 
-        li a, .dropbtn {
-            display: inline-block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
+        .top{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            z-index:1;
+            background-color:lightgreen;
+        }
+        .card{
+            box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
         }
 
-        li a:hover, .dropdown:hover .dropbtn {
-            background-color: red;
+        .right{
+            float:right;
         }
 
-        li.dropdown {
-            display: inline-block;
+        .bar-item{
+            padding:8px 16px;
+            float:left;
+            width:auto;
+            border:none;
+            display:block;
+            outline:0;
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: darkred;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+        .button{
+            border:none;
+            display:inline-block;
+            padding:8px 16px;
+            vertical-align:middle;
+            overflow:hidden;
+            text-decoration:none;
+            color:#000;
+            background-color:lightgreen;
+            text-align:center;
+            cursor:pointer;
+            white-space:nowrap;
+
         }
 
-        .dropdown-content a {
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
+        .button:hover{
+            color:#000;
+            background-color:salmon;
         }
 
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
+        .wide{
+            letter-spacing:4px;
+        }
+
+        .container{
+            padding:128px 16px;
+            clear:both;
+            background-image: url("../img/grocerybackground.jpg");
+            background-repeat:none;
+            background-attachment: fixed;
+        }
+
+        .cell-row{
+            display:table;
+            width:100%;
+        }
+        .cell{
+            display:table-cell;
+            text-align:center;
+            width:25%;
+        }
+
+        .info{
+            overflow:auto;
+            padding-left:200px;
+            font-size:120%;
+        }
+        a{
+            text-decoration:none;
             color:black;
         }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
+        a:hover{
+            color:darkorange;
         }
-
-        #welcome{
-            font-size:200%;
-            color:white;
-        }
-
-        
-
-        img{
-            width:30px; 
-            height:30px;
-        }
-
-        #logo{
-            width:200px;
-            height:200px;
-        }
-
-        #submit{
-			background-color:red;
-			width:250px;
-			height:50px;
-			border-radius:100px;
-			border:none;
-            transition: background-color 0.5s ease;
-            font-size:120%;
-		}
-		#submit:hover{
-			background-color:pink;
-		}
-
-        .topicon{
-            display: inline;
-            width: 30px;
-            height: 30px;
-            border-radius: 30px;
-            float:right;
-            margin:5px;
-        }
-        #pagecontent{
-            width:60%;
-            margin:auto;
-            background-color: rgb(200, 200, 0);
-            padding:5px;
-            border-style: outset;
-            border-radius:10px;
-            text-align:center;
-        }
-
-        p{
-            font-size: 120%;
-        }
-        #categories{
-            margin:auto;
-            border:none;
-        }
-        td{
-            background-color: seagreen;
-            width:25%;
-            padding:10px;
-            margin:0;
-        }
-        td:hover{
-            background-color: red;
-            transition: background-color 0.5s ease;
-        }
-        table {
-            table-layout: fixed ;
-            width: 100% ;
-        }
-        
-
     </style>
+
 </head>
 
 <body>
-    <?php 
-    require("db.php");
-    session_start();
-    ?>
+<?php
 
-    <div>
-        <img src="../img/logo.png" style="float:left;" id="logo">
-        <p style="background-color:white;">Welcome, <?php echo $_SESSION['username'];?> </p>
-    </div>
-    <div>
-        <ul>
-            <li><a href="inventory.php">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">Diet Categories</a>
-                <div class="dropdown-content">
-                    <a href="#">Keto</a>
-                    <a href="#">Atkins</a>
-                    <a href="#">Paleo</a>
-                    <a href="#">Vegetarian</a>
-                    <a href="#">Vegan</a>
-                    <a href="#">Pescatarian</a>
-                    <a href="#">Raw</a>
-                    <a href="#">Mediterranean</a>
-                </div>
-            </li>
-            
-            <li><a href="viewcart.php" class="topicon" title="View Cart"><img src="../img/cart_icon.png"></a></li>
-            <li><a href="profile.php" class="topicon" title="View Profile"><img src="../img/user_icon.png"></a></li>
-            <li><a href="logout.php" class="topicon" title="Log Out"><img src="../img/logout_icon.png"></a></li>
-        </ul>
-    </div>
-
-    <div id="pagecontent">
-        <p>Welcome to Simple Shopper, an online grocery service to fulfil all of your dietary needs.</p>
-        <p>Choose your diet below, or browse entire inventory here.</p>
-        <div id="categories">
-            <table>
-                <tr>
-                <td><a href="#" style="display:block; text-decoration:none;"><h4>Keto</h4><p>Insert diet info</p></a></td>
-                    <td><a href="#" style="display:block; text-decoration:none;"><h4>Atkins</h4><p>Insert diet info</p></a></td>
-                    <td><a href="#" style="display:block; text-decoration:none;"><h4>Paleo</h4><p>Insert diet info</p></a></td>
-                    <td><a href="#" style="display:block; text-decoration:none;"><h4>Vegetarian</h4><p>Insert diet info</p></a></td>
-                </tr>
-                <tr>
-                    <td><a href="#" style="display:block; text-decoration:none;"><h4>Vegan</h4><p>Insert diet info</p></a></td>
-                    <td><a href="#" style="display:block; text-decoration:none;"><h4>Mediterranean</h4><p>Insert diet info</p></a></td>
-                    <td><a href="#" style="display:block; text-decoration:none;"><h4>Pescatarian</h4><p>Insert diet info</p></a></td>
-                    <td><a href="#" style="display:block; text-decoration:none;"><h4>Raw</h4><p>Insert diet info</p></a></td>
-                </tr>
-            </table>
-        </div>
+require('db.php');
+session_start(); 
+   
+?>
     
+    <div class="top card">
+            <div class="bar" id="myNavbar">
+                <a href="#home" class="bar-item button wide">SIMPLE SHOPPER</a>
+                <span class="bar-item" style="padding-left:175px;"><?php echo "Welcome, " . $_SESSION['username'] . "!";?></span>
+                <!-- Right-sided navbar links -->
+                <div class="right">
+                <a href="#about" class="bar-item button"><i class="fa fa-group"></i> ABOUT US</a>
+                <a href="profile.php" class="bar-item button"><i class="fa fa-user"></i> PROFILE</a>
+                <a href="#work" class="bar-item button"><i class="fa fa-cart-arrow-down"></i> VIEW CART</a>
+                <a href="inventory.php" class="bar-item button"><i class="fa fa-book"></i> OUR DIETS</a>
+                <a href="logout.php" class="bar-item button"><i class="fa fa-sign-out"></i> LOG OUT</a>
+                </div>
+        </div>
     </div>
+    
+    <div class="container" style="text-align:center;">
+        <div class="card" style="background-color: rgba(255,250,240,0.7)">
+        <h1>Welcome to Simple Shopper!</h1>
+        <p>Simple Shopper is an online grocery service to fulfil all of your dietary needs. Choose your diet below, or browse entire inventory below.</p>
+    </div>
+    </div>
+<?php print_r($_SESSION); //This line is used only to show the variables of the session?>
+<div style="padding:5px;">
+    <div class="cell-row">
+        <div class="cell" style="background-color:#6f6456;">
+            <a href="#"><h2>Keto</h2>
+            <p>A low-carb, high-fat diet to go into ketosis and burn fat.</p></a>
+        </div>
+        <div class="cell" style="background-color:#cddc49;">
+            <a href="#"><h2>Atkins</h2>
+            <p>dnvjfkf</p></a>
+        </div>
+        <div class="cell" style="background-color:#cb7e94;">
+            <a href="#"><h2>Paleo</h2>
+            <p>The diet of early humans, with no dairy, grains, or processed foods.</p></a>
+        </div>
+        <div class="cell" style="background-color:#e94b30;">
+            <a href="#"><h2>Vegetarian</h2>
+            <p>A meat-free diet. Dairy and eggs are still included in this diet.</p></a>
+        </div>
+    </div>
+    <div class="cell-row">
+        <div class="cell" style="background-color:#fee659;">
+            <a href="#"><h2>Mediterranean</h2>
+            <p>A diet full of fresh fruits, beans, nuts, yogurt, cheese, and other staple foods of Southern Europe.</p></a>
+        </div>
+        <div class="cell" style="background-color:#a1cfdd;">
+            <a href="#"><h2>Vegan</h2>
+            <p>A 100% plant based diet</p></a>
+        </div>
+        <div class="cell" style="background-color:#b0ffbd;">
+            <a href="#"><h2>Raw</h2>
+            <p>A diet of organic, unprocessed foods.</p></a>
+        </div>
+        <div class="cell" style="background-color:#4fcfad;">
+            <a href="#"><h2>Pescatarian</h2>
+            <p>A diet where the only meat involved is fish.</p></a>
+        </div>
+    </div>
+</div>
+
 </body>
+
 </html>

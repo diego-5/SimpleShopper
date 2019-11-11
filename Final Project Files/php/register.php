@@ -111,11 +111,11 @@ session_start();
 				echo "<div class='form'><h3>Password is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";
 			}elseif (!filter_var($_POST["emailaddress"], FILTER_VALIDATE_EMAIL)){
 				echo "<div class='form'><h3>Email is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";
-			}elseif($_POST["phone"].length>10 || !preg_match($numpattern, $_POST["phone"])){
+			}elseif(strlen($_POST['phone'])>10 || !preg_match($numpattern, $_POST["phone"])){
 				echo "<div class='form'><h3>Phone number is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";				
-			}elseif($_POST["state"].length!=2){
+			}elseif(strlen($_POST["state"])!=2){
 				echo "<div class='form'><h3>State code is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";
-			}elseif($_POST["zipcode"].length>8 || !preg_match($numpattern, $_POST["zipcode"])){
+			}elseif(strlen($_POST["zipcode"])>5 || !preg_match($numpattern, $_POST["zipcode"])){
 				echo "<div class='form'><h3>Zipcode is not correct format.</h3><br/>Click here to <a href='register.php'>Register Again</a></div>";	
 			}
 			else{	
