@@ -40,7 +40,7 @@
 require("db.php");
 session_start();
 
-$id = $_GET['username'];
+$id = $_SESSION['username'];
 $id = mysqli_real_escape_string($con, $id);
 
 echo "<div class='history'>";
@@ -77,7 +77,7 @@ while($row=mysqli_fetch_assoc($cust_result)){
 
 ?>
 
-<a href="inventory.php">Return to Inventory</a>
+<a href="inventory.php?username=<?php echo $_SESSION['username'];?>">Return to Inventory</a>
 <a href="login.php">Login as Different User</a>
 </body>
 </html>

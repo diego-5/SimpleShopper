@@ -67,10 +67,14 @@ session_start();
 		if($rows==1){
 
 			$_SESSION['username'] = $username;
-			
-			header("Location: inventory.php"); 
-			die();
-
+			if($_POST['username']=="admin"){
+				header("Location: admininventory.php?username=admin"); 
+				die();
+			}
+			else{
+				header("Location: inventory.php?username=" . $_SESSION['username']); 
+				die();
+			}
 		}
 		else{
 
