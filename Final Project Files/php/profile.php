@@ -2,39 +2,65 @@
 <html>
 <head>
     <style>
-        body{
-            background-image: linear-gradient(to right, #a8ff78, #78ffd6);
-        }
-        .history{
-            background-color: rgba(0,0,150, 0.7);
-            color:white;
-            font-size:150%;
-            width:50%;
-			margin:auto;
-			padding:5px;
-        }
-        h2{
+        body,h1,h2,h3,h4,h5,h6, #submit{
+            font-family: courier;
             text-align:center;
-            font-size:200%;
+        }
+
+        body, html{
+            height: 100%;
+            line-height: 1.8;
+            background-color:floralwhite;
+        }
+
+        .bar .button {
+            padding: 16px;
+            white-space:normal;
+        }
+
+        .card{
+            box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+            background-color: rgba(255,255,0, 0.4);
+        }
+
+
+        .button{
+            border:none;
+            display:inline-block;
+            padding:8px 16px;
+            vertical-align:middle;
+            overflow:hidden;
+            text-decoration:none;
+            color:#000;
+            background-color:lightgreen;
+            text-align:center;
+            cursor:pointer;
+            white-space:nowrap;
+
+        }
+
+        .button:hover{
+            color:#000;
+            background-color:salmon;
+        }
+
+        .wide{
+            letter-spacing:4px;
         }
 
         a{
-            color:white;
-            background-color:coral;
-            transition: background-color 0.5s ease;
-            float:right;
-            padding:5px;
-            margin:5px;
+            text-decoration:none;
+            color:black;
         }
         a:hover{
-            background-color:pink;
+            color:darkorange;
         }
     </style>
 </head>
 
 <body>
 
-<h2>User Profile</h2>
+<h1>User Profile</h1>
 
 <?php 
 require("db.php");
@@ -43,7 +69,9 @@ session_start();
 $id = $_SESSION['username'];
 $id = mysqli_real_escape_string($con, $id);
 
-echo "<div class='history'>";
+
+echo "<div class='card'>";
+echo "<h3>Personal Info</h3>";
 echo "Username: " . $id . "<br>";
 
 
@@ -57,6 +85,7 @@ while($row=mysqli_fetch_assoc($cust_result)){
     echo "<p>Address: " . $row['customer_address'] . ", " . $row['customer_city'] . ", " . $row['customer_state'] . " " . $row['customer_zipcode']. "</p>";
     
 }
+echo "</div>";
 
 /*
 while($row=mysqli_fetch_assoc($cust_result)){
@@ -77,8 +106,9 @@ while($row=mysqli_fetch_assoc($cust_result)){
 
 ?>
 
-<a href="inventory.php?username=<?php echo $_SESSION['username'];?>">Return to Inventory</a>
-<a href="login.php">Login as Different User</a>
+<a href="inventory.php" class="button">Return to Inventory</a>
+<a href="login.php" class="button">Login as Different User</a>
+<a href="editprofile.php" class="button">Edit Profile</a>
 </body>
 </html>
 

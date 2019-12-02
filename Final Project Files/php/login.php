@@ -68,11 +68,11 @@ session_start();
 
 			$_SESSION['username'] = $username;
 			if($_POST['username']=="admin"){
-				header("Location: admininventory.php?username=admin"); 
+				header("Location: admininventory.php"); 
 				die();
 			}
 			else{
-				header("Location: inventory.php?username=" . $_SESSION['username']); 
+				header("Location: inventory.php"); 
 				die();
 			}
 		}

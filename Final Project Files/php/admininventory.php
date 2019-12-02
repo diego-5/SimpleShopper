@@ -105,6 +105,10 @@
 require('db.php');
 session_start(); 
 
+if($_SESSION['username']!="admin"){
+    header("Location: login.php");
+    exit();
+}
    
 ?>
     
@@ -115,9 +119,8 @@ session_start();
                 <!-- Right-sided navbar links -->
                 <div class="right">
                 <a href="#about" class="bar-item button"><i class="fa fa-group"></i> ABOUT US</a>
-                <a href="profile.php" class="bar-item button"><i class="fa fa-user"></i> PROFILE</a>
-                <a href="viewcart.php" class="bar-item button"><i class="fa fa-cart-arrow-down"></i> VIEW CART</a>
-                <a href="inventory.php" class="bar-item button"><i class="fa fa-book"></i> OUR DIETS</a>
+                <a href="addinventory.php" class="bar-item button"><i class="fa fa-cart-plus"></i> ADD INVENTORY</a>
+                <a href="admininventory.php?username=<?php echo $_GET['username'];?>" class="bar-item button"><i class="fa fa-book"></i> OUR DIETS</a>
                 <a href="logout.php" class="bar-item button"><i class="fa fa-sign-out"></i> LOG OUT</a>
                 </div>
         </div>
@@ -126,7 +129,7 @@ session_start();
     <div class="container" style="text-align:center;background-image: url('../img/grocerybackground.jpg');background-repeat:none; background-attachment: fixed;">
         <div class="card" style="background-color: rgba(255,250,240,0.7)">
         <h1>Welcome to Simple Shopper!</h1>
-        <p>Simple Shopper is an online grocery service to fulfil all of your dietary needs. Choose your diet below, or browse entire inventory below.</p>
+        <p>Simple Shopper is an online grocery service to fulfil all of your dietary needs. It looks like you are an admin! Use this page to add new inventory or make changes to current inventory.</p>
     </div>
     </div>
 <div style="padding:5px;">
@@ -159,7 +162,7 @@ session_start();
         </div>
         <div class="cell" style="background-color:#b0ffbd;">
             <a href="raw.php?username=<?php echo $_GET['username'];?>"><h2>Raw</h2>
-            <p>A diet of organic, uncooked, and unprocessed foods.</p></a>
+            <p>A diet of organic, unprocessed foods.</p></a>
         </div>
         <div class="cell" style="background-color:#4fcfad;">
             <a href="pescatarian.php?username=<?php echo $_GET['username'];?>"><h2>Pescatarian</h2>
@@ -207,22 +210,18 @@ session_start();
         }
         echo "</p>";
 ?>
-<form action="viewcart.php" method="post">
+<form action="addstock.php" method="post">
     <input type="hidden" name="submit_id" value= "<?php echo $row['food_id']?>">
-    <i class="fa fa-plus-square"></i><input type='submit' name ="submit" class="button" name="<?php echo $row['food_id']?>"  value='Add to Cart'>
+    <i class="fa fa-pencil-square"></i><input type='submit' class="button" name="<?php echo $row['food_id']?>"  value='Add Stock'>
 </form>
 <?php
-    echo "</div>";
-    echo "</div>";
-}
-
-?>
-
-<?php 
+        echo "</div>";
+        echo "</div>";
+    }
 
 ?>
 
 </div>
-</body>
 
+</body>
 </html>

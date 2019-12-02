@@ -76,37 +76,40 @@ $food_id = $_POST['submit_id'];
 
 $user_id = mysqli_real_escape_string($con,$user_id);
 $food_id = mysqli_real_escape_string($con, $food_id);
+if(isset($user_id)){
 
-$query="INSERT INTO `cart`(`customer`, `food_id`) VALUES ('$user_id', '$food_id')";
-mysqli_query($con, $query);
-
-$aquery="SELECT * FROM `cart`";
-$aresult=mysqli_query($con, $aquery) or die(mysql_error()); 
-while($arow=mysqli_fetch_assoc($aresult)){
-    $n=$arow['food_id'];
-
-    $food_query= "SELECT * FROM `food_inventory` WHERE `food_id`='$n'";
-    $food_result=mysqli_query($con, $food_query) or die(mysql_error());
-    while($line=mysqli_fetch_assoc($food_result)){
-        echo "<div class='card'>";
-        echo "<p>Food ID Number: " . $line['food_id'] . "<br>";
-        echo "<p>Food Name: " . $line['food_desc'] . "</p>";
-        echo "<p>Price: " . $line['price'] . "</p>";
-        echo"</div>";
-        $total = $total + $line['price'];
-        echo "<br><br>";
+    if(isset($_POST['submit'])){
+        $query="INSERT INTO `cart`(`customer`, `food_id`) VALUES ('$user_id', '$food_id')";
+        mysqli_query($con, $query);
     }
+    $aquery="SELECT * FROM `cart`";
+    $aresult=mysqli_query($con, $aquery) or die(mysql_error()); 
+    while($arow=mysqli_fetch_assoc($aresult)){
+        $n=$arow['food_id'];
+
+        $food_query= "SELECT * FROM `food_inventory` WHERE `food_id`='$n'";
+        $food_result=mysqli_query($con, $food_query) or die(mysql_error());
+        while($line=mysqli_fetch_assoc($food_result)){
+            echo "<div class='card'>";
+            echo "<p>Food ID Number: " . $line['food_id'] . "<br>";
+            echo "<p>Food Name: " . $line['food_desc'] . "</p>";
+            echo "<p>Price: " . $line['price'] . "</p>";
+            echo"</div>";
+            $total = $total + $line['price'];
+            echo "<br><br>";
+        }
+    }
+    echo "<div id='total'>";
+    echo "<p>Cart Total: $" . $total . "</p>";
 }
-echo "<div id='total'>";
-echo "<p>Cart Total: $" . $total . "</p>";
 ?>
 
-<form action="checkout.php" method="post">
+<form action="pay.php" method="post">
     <input type="hidden" name="items" value="<?php echo $total;?>">
     <input type="submit" class="button" name="checkout" id="submit" value="Buy Items">
 </form>
 
-<a href="inventory.php?username=<?php echo $_SESSION['username'];?>" class="button">Continue Shopping</a>
+<a href="inventory.php" class="button">Continue Shopping</a>
 <?php echo "</div>"; ?>
 
 

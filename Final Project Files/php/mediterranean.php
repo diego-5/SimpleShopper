@@ -115,9 +115,7 @@ session_start();
                 <!-- Right-sided navbar links -->
                 <div class="right">
                 <a href="#about" class="bar-item button"><i class="fa fa-group"></i> ABOUT US</a>
-                <a href="profile.php" class="bar-item button"><i class="fa fa-user"></i> PROFILE</a>
-                <a href="viewcart.php" class="bar-item button"><i class="fa fa-cart-arrow-down"></i> VIEW CART</a>
-                <a href="inventory.php" class="bar-item button"><i class="fa fa-book"></i> OUR DIETS</a>
+                <a href="inventory.php?username=<?php echo $_GET['username'];?>" class="bar-item button"><i class="fa fa-book"></i> OUR DIETS</a>
                 <a href="logout.php" class="bar-item button"><i class="fa fa-sign-out"></i> LOG OUT</a>
                 </div>
         </div>
@@ -171,7 +169,7 @@ session_start();
 <div class="container">
 <h2 id="inv">Our Inventory</h2>
 <?php 
-    $query= "SELECT * FROM `food_inventory`";
+    $query= "SELECT * FROM `food_inventory` WHERE `mediterranean_diet`=1";
     $result= mysqli_query($con,$query) or die(mysql_error());
     while($row=mysqli_fetch_assoc($result)){
         echo "<div class='card wide' style='padding:5px; overflow:auto;'>";
